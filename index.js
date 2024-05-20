@@ -8,7 +8,7 @@ const app = express();
 
 const secret = 'ksjdnihdsjkjncskjncknsoidcbapojslbc'
 
-app.use(cors());
+app.use(cors({credentials: true, origin:'http://localhost:5173'}));
 app.use(express.json());
 
 mongoose.connect('mongodb+srv://mguerrerowest:mypassword@cluster0.cqwis4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
