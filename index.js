@@ -4,12 +4,14 @@ const User = require('./models/User')
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cookeParser = require('cookie-parser')
 const app = express();
 
 const secret = 'ksjdnihdsjkjncskjncknsoidcbapojslbc'
 
 app.use(cors({credentials: true, origin:'http://localhost:5173'}));
 app.use(express.json());
+app.use(cookeParser())
 
 mongoose.connect('mongodb+srv://mguerrerowest:mypassword@cluster0.cqwis4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   
