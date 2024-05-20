@@ -49,4 +49,16 @@ app.post('/login', async (req, res) => {
     }
 })
 
+app.get('/profile', (req, res) => {
+    //grab token from request cookies
+    const {token} = req.cookies
+    //Read/decode token with secret key 
+    jwt.verify(token, secret, {}, (err, info)=> {
+        if (err) throw err
+        //respond with decoded token info
+        res.json(info)
+    })
+    
+});
+
 app.listen(4000)
