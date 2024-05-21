@@ -41,8 +41,11 @@ app.post('/login', async (req, res) => {
         //if passwords match, generate a jwt
         jwt.sign({username, id:userDoc._id,}, secret, {}, (err, token) => {
             if(err) throw err;
-            //respond with jwt as a cookie
-            res.cookie('token', token).json('ok')
+            //respond with jwt as a cookie and send _id and username
+            res.cookie('token', token).json({
+                id: userDoc._id,
+                username
+        })
         })
     } else {
         res.status(400).json('Wrong Cretentials')
