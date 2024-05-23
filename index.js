@@ -5,7 +5,7 @@ const Post = require('./models/Post')
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const cookeParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 const multer = require('multer')
 const uploadMiddleware = multer({ dest: 'uploads/' })
 const fs = require('fs')
@@ -15,7 +15,8 @@ const secret = 'ksjdnihdsjkjncskjncknsoidcbapojslbc'
 
 app.use(cors({credentials: true, origin:'http://localhost:5173'}));
 app.use(express.json());
-app.use(cookeParser())
+app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 mongoose.connect('mongodb+srv://mguerrerowest:mypassword@cluster0.cqwis4a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   
@@ -95,8 +96,12 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 });
 
 app.get('/post', async (req, res) => {
-    const posts = await Post.find().populate('author', ['username'])
-    res.json(posts)
+    res.json(
+        await Post.find()
+        .populate('author', ['username'])
+        .sort({createdAt: -1})
+        .limit(20)
+    )
 });
 
 app.listen(4000)
